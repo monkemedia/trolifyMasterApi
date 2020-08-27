@@ -1,18 +1,18 @@
 const mongoose = require('mongoose')
-const merchantSchema = require('./schema')
+const MerchantSchema = require('./schema')
 const bcrypt = require('bcryptjs')
 
-merchantSchema.pre('save', async function (next) {
-  const merchantSchema = this
+MerchantSchema.pre('save', async function (next) {
+  const merchant = this
 
-  if (merchantSchema.isModified('password')) {
-    merchantSchema.password = await bcrypt.hash(merchantSchema.password, 8)
+  if (merchant.isModified('password')) {
+    merchant.password = await bcrypt.hash(merchant.password, 8)
   }
   next()
 })
 
 // Get merchants
-merchantSchema.statics.findMerchants = async ({ page, limit }) => {
+MerchantSchema.statics.findMerchants = async ({ page, limit }) => {
   const merchants = await Merchant
     .find({})
     .skip((page - 1) * limit)
@@ -34,17 +34,17 @@ merchantSchema.statics.findMerchants = async ({ page, limit }) => {
 }
 
 // Update merchant
-merchantSchema.statics.updateMerchant = async (merchantId, merchantDetails) => {
+MerchantSchema.statics.updateMerchant = async (merchantId, merchantDetails) => {
   const merchant = await Merchant.updateOne({ _id: merchantId }, merchantDetails)
   return merchant
 }
 
 // Delete merchant
-merchantSchema.statics.deleteMerchant = async (merchantId) => {
+MerchantSchema.statics.deleteMerchant = async (merchantId) => {
   const merchant = await Merchant.deleteOne({ _id: merchantId })
   return merchant
 }
 
-const Merchant = mongoose.model('Merchant', merchantSchema)
+const Merchant = mongoose.model('Merchant', MerchantSchema)
 
 module.exports = Merchant
