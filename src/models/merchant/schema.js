@@ -6,7 +6,12 @@ const MerchantSchema = new Schema({
     type: String,
     required: true
   },
-  client_id: {
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
     type: String,
     required: true
   },
@@ -19,12 +24,14 @@ const MerchantSchema = new Schema({
     required: true,
     unique: true
   },
-  username: {
-    type: String,
-    required: true,
-    unique: true
+  name: {
+    type: String
   },
-  password: {
+  enabled: {
+    type: Boolean,
+    default: false
+  },
+  role: {
     type: String,
     required: true
   },
