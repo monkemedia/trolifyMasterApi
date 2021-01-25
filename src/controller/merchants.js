@@ -70,10 +70,19 @@ const updateMerchant = async (req, res) => {
   }
 
   try {
+    if (data.password) {
+      await Merchant.updateMerchantWithPassword(merchantId, data.password)
+    } else {
     await Merchant.updateMerchant(merchantId, data)
+    }
     const merchant = await Merchant.findOne({ _id: merchantId })
+      .select('-reset_token -refresh_token')
 
-    res.status(200).send(merchant)
+    const merchantClone = Object.assign(merchant, {
+      password: !!merchant.password
+    })
+
+    res.status(200).send(merchantClone)
   } catch (err) {
     res.status(400).send(err)
   }

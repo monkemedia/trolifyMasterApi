@@ -35,7 +35,16 @@ MerchantSchema.statics.findMerchants = async ({ page, limit }) => {
 
 // Update merchant
 MerchantSchema.statics.updateMerchant = async (merchantId, merchantDetails) => {
+  console.log('here')
   const merchant = await Merchant.updateOne({ _id: merchantId }, merchantDetails)
+  return merchant
+}
+
+// Update password
+MerchantSchema.statics.updateMerchantWithPassword = async (merchantId, password) => {
+  const hashedPassword = await bcrypt.hash(password, 8)
+
+  const merchant = await Merchant.updateOne({ _id: merchantId }, { password: hashedPassword, refresh_token: null, reset_token: null })
   return merchant
 }
 

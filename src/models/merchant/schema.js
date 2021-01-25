@@ -22,7 +22,6 @@ const MerchantSchema = new Schema({
   store_hash: {
     type: String,
     required: true,
-    unique: true
   },
   name: {
     type: String
