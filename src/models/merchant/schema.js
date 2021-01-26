@@ -15,10 +15,6 @@ const MerchantSchema = new Schema({
     type: String,
     required: true
   },
-  store_name: {
-    type: String,
-    required: true,
-  },
   store_hash: {
     type: String,
     required: true,
@@ -27,6 +23,10 @@ const MerchantSchema = new Schema({
     type: String
   },
   enabled: {
+    type: Boolean,
+    default: false
+  },
+  store_setup: {
     type: Boolean,
     default: false
   },
