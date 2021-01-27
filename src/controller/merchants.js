@@ -1,8 +1,11 @@
 const Merchant = require('../models/merchant')
 
 const createMerchant = async (req, res) => {
+  const OWNER = 'owner'
   const data = req.body
-  const { type } = data
+  const { type, email, store_hash } = data
+  const currentMerchant = await Merchant.findByEmailAddress(email)
+  const ownerAlreadyExists = await Merchant.find({ store_hash, role: OWNER })
 
   if (!type) {
     return res.status(401).send({
@@ -13,6 +16,18 @@ const createMerchant = async (req, res) => {
   if (type && type !== 'merchants') {
     return res.status(401).send({
       message: 'Correct type is required'
+    })
+  }
+
+  if (currentMerchant) {
+    return res.status(401).send({
+      message: 'Merchant already exists'
+    })
+  }
+
+  if (ownerAlreadyExists && role === OWNER) {
+    return res.status(401).send({
+      message: 'Merchant already has a owner'
     })
   }
 

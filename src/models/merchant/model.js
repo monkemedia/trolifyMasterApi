@@ -33,6 +33,13 @@ MerchantSchema.statics.findMerchants = async ({ page, limit }) => {
   }
 }
 
+// Search for a merchant by email address
+MerchantSchema.statics.findByEmailAddress = async (email) => {
+  const merchant = await Merchant.findOne({ email })
+
+  return merchant
+}
+
 // Update merchant
 MerchantSchema.statics.updateMerchant = async (merchantId, merchantDetails) => {
   console.log('here')

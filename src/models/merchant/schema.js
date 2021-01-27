@@ -8,8 +8,7 @@ const MerchantSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   password: {
     type: String,
@@ -23,10 +22,6 @@ const MerchantSchema = new Schema({
     type: String
   },
   enabled: {
-    type: Boolean,
-    default: false
-  },
-  store_setup: {
     type: Boolean,
     default: false
   },
