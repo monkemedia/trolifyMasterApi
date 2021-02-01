@@ -6,6 +6,7 @@ const createMerchant = async (req, res) => {
   const { type, email, store_hash } = data
   const currentMerchant = await Merchant.findByEmailAddress(email)
   const ownerAlreadyExists = await Merchant.find({ store_hash, role: OWNER })
+  console.log(ownerAlreadyExists)
 
   if (!type) {
     return res.status(401).send({
@@ -25,7 +26,7 @@ const createMerchant = async (req, res) => {
     })
   }
 
-  if (ownerAlreadyExists && role === OWNER) {
+  if (ownerAlreadyExists.length > 0) {
     return res.status(401).send({
       message: 'Merchant already has a owner'
     })
